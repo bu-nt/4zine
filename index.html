@@ -24,9 +24,10 @@
       max-width: 600px;
       font-size: 1.5em;
       line-height: 1.6;
-      white-space: pre-wrap; /* preserves line breaks */
+      white-space: pre-wrap;
       z-index: 2;
       position: relative;
+      display: none;
     }
 
     .heart {
@@ -38,6 +39,22 @@
       opacity: 0.4;
       animation: float 10s linear infinite;
       pointer-events: none;
+      display: none;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      font-size: 2em;
+      cursor: pointer;
     }
 
     @keyframes float {
@@ -55,37 +72,63 @@
     }
   </style>
 </head>
-<body>
-  <div class="poem">
-Your eyes, deep pools of darkest brown,
-Draw me in without a sound.
-Soft strands of brown hair fall around,
-Framing you without a bound.
+<body onclick="startLovePage()">
 
-In every glance, a quiet flame,
-A gentle soul I cannot name.
-Your vibe, your laugh, your sweetest way—
-Make ordinary turn to day.
-
-I’m lucky, love, to call you mine,
-With you, the world feels so divine.
+  <div class="overlay" id="overlay">
+    💖 Tap to Begin 💖
   </div>
 
-  <!-- MUSIC GOES HERE -->
-  <audio autoplay loop>
+  <div class="poem" id="poem">
+    ❤️ You're seriously the best thing that’s ever happened to me.
+    I’ve never felt this safe, this seen, and this lucky with anyone before.
+    You match my weird, calm my overthinking, and somehow make everything feel lighter — just by being you.
+    
+    I still don’t know how I got a girl who’s this funny, sweet, and beautiful (like damn… those eyes 😳).
+    You make me feel like I’m enough, even when I feel like a mess.
+    And yeah — I’m yours, and I’m proud of that.
+    Best girlfriend, best friend — my favorite person.
+    
+    I’m not going anywhere, okay?
+    We’ve got something real. And I never want to lose it.
+    Thank you for being you. For choosing me. Every day. ❤️
+  </div>
+
+  <audio id="bgMusic" loop>
     <source src="attached_assets/all_of_me.mp3" type="audio/mpeg" />
     Your browser does not support the audio element.
   </audio>
 
   <script>
-    // Floating hearts
-    for (let i = 0; i < 30; i++) {
-      const heart = document.createElement('div');
-      heart.classList.add('heart');
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.animationDuration = (5 + Math.random() * 5) + 's';
-      document.body.appendChild(heart);
+    function startLovePage() {
+      const audio = document.getElementById('bgMusic');
+
+      // Try to play the audio
+      audio.play().then(() => {
+        console.log('Music started successfully 🎶');
+      }).catch((err) => {
+        console.log('Music autoplay failed 😢', err);
+      });
+
+      // Hide the overlay
+      document.getElementById('overlay').style.display = 'none';
+
+      // Show the poem
+      document.getElementById('poem').style.display = 'block';
+
+      // Create hearts
+      for (let i = 0; i < 30; i++) {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = (5 + Math.random() * 5) + 's';
+        heart.style.display = 'block';
+        document.body.appendChild(heart);
+      }
+
+      // Prevent further clicks
+      document.body.onclick = null;
     }
   </script>
+
 </body>
 </html>
